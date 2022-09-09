@@ -1,0 +1,117 @@
+{% load static %}
+
+<style>
+    *{
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+
+    .nav_bar{
+        display: flex;
+        justify-content: space-between;
+        padding: 2px;
+        background-color: ghostwhite;
+        position: sticky;
+        top: 0;
+    }
+
+    .logo{
+        display: flex;
+        justify-content: space-evenly;
+        text-decoration:none;
+        color:black;
+    }
+
+    .logo img{
+        width: 70px;
+        height: 70px;
+    }
+
+    .logo_text{
+        margin-top: 20px;
+        font-size: 20px;
+        font-family: 'Brush Script MT', cursive;
+    }
+
+    .main_search_bar{
+        width: 300px;
+        height: 40px;
+        border:1px solid #1D39C4;
+        border-radius:10px;
+        margin-left:-100px;
+        margin-top:20px;
+        padding:10px;
+    }
+
+
+    .login{
+        width:40px;
+        margin-left:-50px;
+        margin-top:10px;
+    }
+
+    .cart{
+        width:30px;
+        margin-top:10px;
+        margin-left:-50px;
+    }
+
+    .profile{
+        width:30px;
+        margin-top:10px;
+        margin-left:-50px;
+    }
+
+    .logout{
+        width:30px;
+        margin-top:10px;
+        margin-left:90px;
+    }
+
+    .cart_total{
+        border:1px solid black;
+        padding:5px;
+        border-radius:400000px;
+        text-decoration:none;
+        color:white;
+        background-color:black;
+
+    }
+
+
+</style>
+
+<div class="nav_bar">
+
+    <a class="logo" href="{% url 'main_store:index' %}">
+        <img src="{% static 'images/vilgax.png' %}" alt="My_logo" class="logo" >
+        <p class="logo_text">Vilgax Stores</p>
+    </a>
+
+    <form>
+    <input class="main_search_bar" type="text" name="search" placeholder="Enter Product name, vendor, category">
+    </form>
+
+
+    {% if request.user.is_authenticated %}
+        <a class="logout" href="{% url 'nucleus:sign_out' %}">
+            <img src="{% static 'images/switch.png' %}"alt="My_logo" class="logout">
+        </a>
+
+          <a class="profile" href="{% url 'nucleus:profile' request.user.id %}">
+            <img src="{% static 'images/user-interface.png' %}"alt="My_logo" class="profile">
+        </a>
+    {% else%}
+         <a class="login" href="{% url 'nucleus:sign_in' %}">
+            <img src="{% static 'images/enter.png' %}"alt="My_logo" class="login">
+        </a>
+
+    {% endif %}
+
+
+         <a class="cart" href="{% url 'main_store:order_summary' %}">
+                <img src="{% static 'images/shopping-cart.png' %}"alt="My_logo" class="cart">
+                <sub class="cart_total">{{cart_total}}</sub>
+            </a>
+</div>

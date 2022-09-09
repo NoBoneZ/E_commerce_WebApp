@@ -1,0 +1,70 @@
+{% extends "admin_overwatch/overwatch_base.html" %}
+
+{% block title %}<title>Global Sales</title>{% endblock %}
+{% block content %}
+<style>
+  .global_sales table{
+        border-collapse:collapse;
+        width:75%;
+        margin-top:20px;
+        margin-left:40px;
+        border:1px solid;
+    }
+
+   .global_sales td{
+        text-align:center;
+    }
+
+    .global_sales th{
+        background-color:grey;
+        color:white;
+    }
+
+    .global_sales th, td{
+        padding:15px;
+    }
+
+</style>
+
+
+<div class="global_sales">
+  <table>
+    <h3>Vilgax's Store Global Sales </h3>
+    <tr>
+      <th>S/N</th>
+      <th>Date of purchase</th>
+      <th>product</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Customer</th>
+      <th>Net price</th>
+    </tr>
+
+      {% for product in sold_products %}
+    <tr>
+      <td>{{forloop.counter}}</td>
+      <td>{{product.date_checked_out}}</td>
+      <td>{{product.product.name}}</td>
+      <td>{{product.product.get_real_price}}</td>
+      <td>{{product.quantity}}</td>
+      <td>{{product.user}}</td>
+      <td>{{product.individual_product_price}}</td>
+    </tr>
+
+    {% empty %}
+    <tr><td colspan="7"><h2>No Sales Made Yet</h2></td></tr>
+    {% endfor %}
+
+    <tr>
+      <td colspan="3">Total Quantity Sold</td>
+      <td colspan="3">{{total_quantity}}</td>
+    </tr>
+
+    <tr>
+      <td colspan="3">Total Amount Generated</td>
+      <td colspan="3">#{{total_amount}}</td>
+    </tr>
+
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,238 @@
+{% extends "admin_overwatch/overwatch_base.html" %}
+{% load static %}
+
+{% block title %}<title>Vilgax Admin</title>{% endblock %}
+{% block content %}
+<style>
+  .main_store_home{
+    display:grid;
+    grid-template-columns:1fr 3fr 1fr;
+  }
+
+  .main_store_categories a{
+    text-decoration:none;
+    color:black;
+  }
+
+  .main_store_categories li{
+    list-style-type:none;
+  }
+
+  .products_list{
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    row-gap: 30px;
+    column-gap: 30px;
+  }
+
+  .product{
+    border:1px solid black;
+    padding-right:-30000px;
+  }
+
+  .product_image{
+    width:70px;
+    height:70px;
+  }
+
+  .cart_logo img{
+    width:50px;
+    float:right;
+    padding:10px;
+  }
+
+  .like_product{
+    width:40px;
+  }
+
+  .sales_activity{
+    border:1px solid black;
+    margin-left:15px;
+    margin-right:20px;
+    border-radius:5px;
+    margin-top:20px;
+  }
+
+   .sales_activity img{
+    width:70px;
+    padding:5px;
+  }
+
+  .sales_activity span{
+       border:1px solid black;
+       border-radius:3px;
+       background-color:black;
+       color:white;
+       float:right;
+
+  }
+
+  .sales_activity p{
+        padding:8px;
+
+  }
+
+  .recent_sales h2{
+    margin:10px 10px 10px 15px;
+  }
+
+   .view_product{
+        width:40px;
+     }
+
+    .create_room{
+        float:right;
+        margin-bottom:20px;
+        cursor:pointer;
+    }
+
+
+  .edit_logo img{
+        width:20px;
+  }
+
+  .delete_logo img{
+        max-width:20px;
+        display:block;
+  }
+
+  .create_category button{
+        float:right;
+  }
+
+  .create_sub_category button{
+        float:right;
+        margin-right:10px;
+  }
+
+
+  .create_sub_category a{
+        cursor:pointer;
+  }
+
+  .main_store_products{
+        margin-left:20px;
+        margin-right:20px;
+  }
+
+  .view_deleted_products{
+        margin-top:5px;
+  }
+
+  .view_global_sales button{
+        margin-left:20px;
+
+  }
+
+</style>
+
+
+<div class="main_store_home">
+
+  <div class="main_store_categories">
+    <h3>Categories</h3>
+
+        <div class="create_category">
+          <a href="{% url 'admin_overwatch:overwatch_create_category' %}">
+            <button type="button">Create Category</button>
+          </a>
+        </div>
+      <ul>
+          <a href="{% url 'main_store:index' %}"><li>All</li></a>
+        {% for category in categories %}
+        <a href="{% url 'admin_overwatch:index' %}?search={{category.name}} "><li>{{category}}</li></a>
+        {% empty %}
+        <p>No categories Available</p>
+        {% endfor %}
+      </ul>
+
+
+  </div>
+
+  <div class="main_store_products">
+        <h2>products Available</h2>
+        <p>{{products.count}} Available
+
+            <div class="create_room">
+                <a href="{% url 'admin_overwatch:overwatch_create_product' %}">
+                <button type="button">Create product</button>
+                </a>
+            </div>
+
+
+             <div class="create_sub_category">
+                <a href="{% url 'admin_overwatch:overwatch_create_sub_category' %}">
+                <button type="button">Create SubCategory</button>
+                </a>
+            </div>
+
+
+             <div class="view_deleted_products">
+                <a href="{% url 'admin_overwatch:overwatch_view_deleted_products' %}">
+                <button type="button">View Deleted products</button>
+                </a>
+            </div>
+
+          <div class="products_list">
+            {% for product in products %}
+
+            <div class="product">
+                  <img src="{{product.picture_of_product_1.url}}" alt="{{product.name}}" class="product_image">
+                  <h4>{{product.name}}</h4>
+                  <p>{{product.price}}</p>
+
+                 <div class="edit_logo">
+                    <a href="{% url 'admin_overwatch:overwatch_product_details' product.id %}"><img src="{% static 'images/edit.svg' %}" alt="edit_product" class=""></a>
+                </div>
+
+                <div class="delete_logo">
+                    <a href="{% url 'admin_overwatch:overwatch_delete_product' product.id %}"><img src="{% static 'images/trash.svg' %}" alt="delete_product" class=""></a>
+                </div>
+
+
+
+
+            </div>
+
+            {% empty %}
+            <p>No products Available</p>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+  <div class="recent_sales">
+    <h2>Recent Sales </h2>
+
+      <div class="view_global_sales">
+                <a href="{% url 'admin_overwatch:overwatch_global_sales' %}">
+                <button type="button">View Global Sales</button>
+                </a>
+            </div>
+
+      {% for sale in sales %}
+      <div class="sales_activity">
+          <img src="{{sale.user.profile_picture.url}}" alt="{{sale.user.username}}">
+          <p>{{sale.user.username}} purchased {{sale.quantity}}X of {{sale.product.name}} for
+              #{{sale.individual_product_price}} from <strong>{{sale.product.vendor.user.username}}</strong></p>
+          <hr>
+
+          <a href="{% url 'admin_overwatch:index'%}?search={{sale.product.get_category}}">
+            <span>{{sale.product.get_category}}</span>
+          </a>
+
+
+        <br>
+          <br>
+      </div>
+      <br>
+      {% empty %}
+      <p>No Sales Yet</p>
+      {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

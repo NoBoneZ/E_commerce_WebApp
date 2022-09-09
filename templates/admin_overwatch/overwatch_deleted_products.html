@@ -1,0 +1,56 @@
+{% extends "admin_overwatch/overwatch_base.html" %}
+
+{% load static %}
+{% block title %}<title>Deleted Products</title>{% endblock %}
+{% block content %}
+<style>
+    .overwatch_deleted_products{
+
+    }
+
+
+
+    .deleted_products{
+
+
+    }
+
+    .individual_deleted_products{
+        border:1px solid black;
+        margin:50px 1300px 50px 90px;
+        padding:20px;
+    }
+
+    .product_image{
+        width:80px;
+        height:80px;
+    }
+
+    .delete_logo img{
+       width:30px;
+        height:30px;
+    }
+
+
+</style>
+<div class="overwatch_deleted_products">
+    <div class="deleted_products">
+        <h2>Deleted products</h2>
+        <p>{{products.count}} products deleted</p>
+        {% for product in products %}
+            <div class="individual_deleted_products">
+                 <img src="{{product.picture_of_product_1.url}}" alt="{{product.name}}" class="product_image">
+                          <h4>{{product.name}}</h4>
+                          <p>{{product.price}}</p>
+
+
+                        <div class="delete_logo">
+                            <a href="{% url 'admin_overwatch:overwatch_delete_product' product.id %}"><img src="{% static 'images/restore.png' %}" alt="un_delete_product" class=""></a>
+                        </div>
+            </div>
+        {% empty %}
+            <p>No Deleted products</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

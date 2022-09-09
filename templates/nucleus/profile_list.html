@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}<title>{{page | title}} page</title>{% endblock %}
+{% block content %}
+<style>
+  .profile_list{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:9px;
+    margin:50px 400px;
+    background-color:whitesmoke;
+    padding-bottom:50px;
+  }
+
+
+  .address_header img {
+        width:20px;
+        height:20px;
+        margin-left: -130px;
+        margin-top : -100px;
+  }
+
+  .address_header h2 {
+        margin:20px 0px -20px 120px;
+  }
+
+
+   .address_body{
+        margin-top:20px 0px 50px 0px;
+   }
+
+   .address_body table{
+        border-collapse:collapse;
+        width:75%;
+        margin-top:20px;
+        margin-left:40px;
+        border:1px solid;
+    }
+
+   .address_body td{
+        text-align:center;
+    }
+
+    .address_body th{
+        background-color:grey;
+        color:white;
+    }
+
+    .address_body th, td{
+        padding:15px;
+    }
+
+    .total_price{
+        margin-left:350px;
+        margin-bottom:20px;
+    }
+
+    .c_orders_body img{
+        margin-top:40px;
+    }
+
+   .c_orders_header img {
+        width:20px;
+        height:20px;
+        margin-left: -80px;
+        margin-top : -20px;
+  }
+
+  .c_orders_header h2 {
+        margin-top :10px;
+        margin-bottom : -20px;
+  }
+
+  .wishlist_header img {
+        width:30px;
+        height:30px;
+        margin-left: 10px;
+        margin-top : -90px;
+  }
+
+  .wishlist_header h2 {
+        margin-top :100px;
+        margin-bottom : -20px;
+        margin-left: 180px;
+  }
+
+  .wish_img {
+        width:100px;
+        height:100px;
+        margin-top:10px;
+  }
+
+  .ind_item_in_wish{
+        border:1px solid black;
+        padding: 20px;
+        margin-top:40px;
+  }
+
+  .ind_item_in_wish button{
+        border:1px solid black;
+        cursor:pointer;
+  }
+
+  .w_add_2_cart{
+        margin-right: 80px;
+        padding:10px;
+        margin-left:20px;
+
+  }
+
+  .w_remove_from_w{
+        margin-right:80px;
+        padding:10px;
+        margin-top: -5px;
+  }
+
+
+  .inbox_list p{
+    margin:10px 0px 0px -80px;
+  }
+
+   .inbox_list{
+    margin-bottom:90px;
+   }
+
+</style>
+
+
+
+<div class="profile_list">
+  {% if page == 'address' %}
+    <div class="address">
+
+        <div class="address_header">
+                    <h2>ADDRESS</h2>
+
+                    <a href="{{request.META.HTTP_REFERER}}">
+                        <img src="{% static 'images/arrow-left.svg' %}" alt="Go Back">
+                    </a>
+                </div>
+
+        <div class="address_body">
+            <table>
+                <tr>
+                    <th>S/N</th>
+                    <th>Full Name</th>
+                    <th>Address</th>
+                    <th>Phone Number</th>
+                </tr>
+
+                {% for address in addresses %}
+                <tr>
+                    <td class="1-address">{{forloop.counter}}</td>
+                    <td class="2-address">{{address.full_name}}</td>
+                    <td class="3-address">{{address.address}}</td>
+                    <td class="4-address">{{address.phone_number}}</td>
+                    {% empty %}
+                    <td class="3-address">No Registered Address Yet</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+        </div>
+    </div>
+    {% endif %}
+
+    {% if page == 'inbox' %}
+    <div class="inbox_list">
+        <h2>Inbox</h2>
+
+        {% for message in messages  %}
+        <h4>{{message.topic}}</h4>
+
+        <p>{{message.inbox}}</p>
+
+        <strong>{{message.date_sent | timesince}}</strong>
+        {% empty %}
+        <p>No Messages From Vilgax Stores Yet</p>
+        {% endfor %}
+
+    </div>
+    {% endif %}
+
+    {% if page == "orders" %}
+    <div class="orders">
+
+                <div class="c_orders_header">
+                    <h2>ALL {{request.user.username | upper}}'s COMPLETED ORDERS</h2>
+
+                    <a href="{{request.META.HTTP_REFERER}}">
+                        <img src="{% static 'images/arrow-left.svg' %}" alt="Go Back">
+                    </a>
+                </div>
+
+
+            <div class="c_orders_body">
+                {% for good in bought_goods %}
+                    <img src="{{good.product.picture_of_product_1.url}}" alt="{{good.product.name}}" width="100px">
+
+                    <p>{{good.product.name | title}}</p>
+                    <span>{{good.date_checked_out}}</span>
+                    <p class="total_price">TOTAL PRICE: {{good.individual_product_price}}</p>
+
+                    {% empty %}
+                    <p>No Good Purchased as of this moment</p>
+                {% endfor %}
+                <br>
+                <br>
+                <br>
+
+                <h3>Total amount spent in Vilgax stores : {{amount_spent}}</h3>
+            </div>
+    </div>
+    {% endif %}
+
+    {% if page == "wishlist" %}
+    <div class=wishlist">
+            <div class="wishlist_header">
+                <h2>{{request.user.username | upper}}'s Wishlist</h2>
+
+                <a href="{{request.META.HTTP_REFERER}}">
+                    <img src="{% static 'images/arrow-left.svg' %}" alt="Go Back">
+                </a>
+            </div>
+
+               <div class="wish_pack">
+                  {% for product in wishlist %}
+                    <div class="ind_item_in_wish">
+                        <img src="{{product.picture_of_product_1.url}}" alt="{{product}}" class="wish_img">
+
+                        <p>{{product.name}}</p>
+                        {% if product.discount > 0 %}
+                          <del>{{product.price}}</del>
+                          <small>{{product.get_price_discount_percentage}}</small>
+                        {% endif %}
+                          <strong>#{{product.get_real_price}}</strong>
+
+
+                          <a href="{% url 'main_store:add_to_cart' product.id %}">
+                          <button type="button" class="w_add_2_cart">Add To Cart</button>
+                          </a>
+
+                          <a href="{% url 'main_store:remove_from_wishlist' request.user.id product.id %}">
+                          <button type="button" class="w_remove_from_w">Remove From Wishlist</button>
+                          </a>
+                    </div>
+                  {% empty %}
+                  <p>No Product In the {{request.user.username}}'s wishlist</p>
+                  {% endfor %}
+               </div>
+    </div>
+        {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,297 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}<title>{{page | title}} page</title>{% endblock %}
+{% block content %}
+<style>
+    .profile_forms{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:9px;
+        margin:50px 400px;
+        background-color:whitesmoke;
+    }
+
+
+    .form_header h2{
+        margin-top: 50px;
+        margin-bottom:  -10px;
+        margin-left:30px;
+        background-color:;
+        font-type:helvetica;
+    }
+
+    .form_header img{
+        width:20px;
+        height:20px;
+        margin-left: -180px;
+        margin-top : -90px;
+     }
+
+     .form_body{
+        margin-top:20px;
+     }
+
+     .form_body button{
+        cursor:pointer;
+     }
+
+      .password_form_header h2{
+        margin-top: 30px;
+        margin-bottom:  -20px;
+        margin-left:50px;
+        background-color:;
+        font-type:helvetica;
+    }
+
+    .password_form_header img{
+        width:20px;
+        height:20px;
+        margin-left: -80px;
+        margin-top : -200px;
+     }
+
+     .password_form_body{
+        margin-top:30px;
+        margin-bottom:10px;
+     }
+
+     .password_form_body button{
+        cursor:pointer;
+        margin-right:-20px
+     }
+
+     .close_account{
+        margin:50px 50px;
+     }
+
+      .close_aza_form_header h2{
+        margin-top: 30px;
+        margin-bottom:  -20px;
+        margin-left:150px;
+        background-color:;
+        font-type:helvetica;
+    }
+
+    .close_aza_form_header img{
+        width:20px;
+        height:20px;
+        margin-left: 10px;
+        margin-top : -200px;
+     }
+
+     .close_aza_form_body{
+        margin-top:30px;
+        margin-bottom:10px;
+        margin-left:20px;
+        margin-right:20px;
+
+     }
+
+     .individual_review{
+           margin:30px 0px;
+     }
+
+     .review_form_header h2{
+        margin-top: 30px;
+        margin-bottom:  -20px;
+        margin-left:50px;
+        background-color:;
+        font-type:helvetica;
+    }
+
+    .review_form_header img{
+        width:20px;
+        height:20px;
+        margin-left: -130px;
+        margin-top : -200px;
+     }
+
+</style>
+
+<div class="profile_forms">
+    {% if page == "user_update_details" %}
+        <div>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form_header">
+                    <h2>Profile Edit Form</h2>
+
+                    <a href="{{request.META.HTTP_REFERER}}">
+                        <img src="{% static 'images/arrow-left.svg' %}" alt="Go Back">
+                    </a>
+                </div>
+                <div class="form_body">
+                    {{form.first_name | as_crispy_field}}
+                    <br>
+                    <br>
+
+
+                    {{form.middle_name | as_crispy_field}}
+                    <br>
+                    <br>
+
+
+                    {{form.last_name | as_crispy_field}}
+                    <br>
+                    <br>
+
+
+                    {{form.age | as_crispy_field}}
+                    <br>
+                    <br>
+
+
+                    {{form.profile_picture| as_crispy_field}}
+                    <br>
+                    <br>
+
+
+                    {{form.phone_number | as_crispy_field}}
+                    <br>
+                    <br>
+
+                    <button type="submit">UPDATE</button>
+                    <br>
+                    <br>
+                </div>
+
+            </form>
+        </div>
+    {% endif %}
+
+    {% if page == "change_password" %}
+        <div class="change_password">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="password_form_header">
+                    <h2>Password Change Form</h2>
+
+                    <a href="{{request.META.HTTP_REFERER}}">
+                        <img src="{% static 'images/arrow-left.svg' %}" alt="Go Back">
+                    </a>
+                </div>
+
+               <div class="password_form_body">
+                    {{form.old_password |as_crispy_field }}
+                    <br>
+                    <br>
+
+
+                    {{form.new_password1 |as_crispy_field}}
+                    <br>
+                    <br>
+
+
+                    {{form.new_password2 |as_crispy_field}}
+                    <br>
+                    <br>
+
+                    <button type="submit">Change Password</button>
+               </div>
+            </form>
+        </div>
+    {% endif %}
+
+    {% if page == "close_account" %}
+        <div class="close_account">
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="close_aza_form_header">
+                    <h2>Please Read Carefully</h2>
+
+                    <a href="{{request.META.HTTP_REFERER}}">
+                        <img src="{% static 'images/arrow-left.svg' %}" alt="Go Back">
+                    </a>
+                </div>
+
+             <div class="close_aza_form_body">
+                <p>You are about to ask us to permanently close your Vilgax account and delete your data.
+                Once your account is closed, all products and services that you access through your account,
+                    will no longer be available.</p>
+
+                <p>Kindly take into consideration that,
+                    your account will still be deleted immediately,
+                and it is an irreversible action</p>
+
+
+                <p>If you go through with this, you will not be able to access the products
+                    and services associated with your closed account.
+                All pending orders will be canceled and refunds would be made within 7 working days. </p>
+                    <br>
+                    <br>
+
+                    <label>Please select the main reason that is leading you to close your Vilgax account (non-mandatory)</label>
+                    <select>
+                        <option value="I am not using this account anymore.">I am not using this account anymore.</option>
+                        <option value="I don't want to disclose my reasons.">I don't want to disclose my reasons.</option>
+                        <option value="I have another account.">I have another account.</option>
+                        <option value="I wish to create a new account.">I wish to create a new account.</option>
+                        <option value="I have unresolved issue with Vilgax Stores.">I have unresolved issue with Vilgax Stores.</option>
+                        <option value="I am concerned about the Security of Vilgax Stores.">I am concerned about the Security of Vilgax Stores.</option>
+                    </select>
+                    <br>
+                    <br>
+
+                    <label>Other reason (optional): </label>
+                    <input type="text">
+                    <br>
+                    <br>
+
+                    <input type="checkbox" required ><span>  Yes, I wish to permanently delete my Vilgax account and Wipe off all my data</span>
+                    <br>
+                    <br>
+
+                    <input type="submit" value="Close My Account">
+             </div>
+            </form>
+        </div>
+    {% endif %}
+
+
+    {% if page == "rate_review" %}
+        <div class="review_page">
+
+
+                <div class="review_form_header">
+                    <h2>Product Review Form</h2>
+
+                    <a href="{{request.META.HTTP_REFERER}}">
+                        <img src="{% static 'images/arrow-left.svg' %}" alt="Go Back">
+                    </a>
+                </div>
+
+            {% for good in products %}
+            <div class="individual_review">
+                <img src="{{good.product.picture_of_product_1.url}}" alt="{{good.product.name}}" width="80px">
+                <p>{{good.product.name}}</p>
+                <p>Order No: {{good.product.id}}</p>
+                <p>checked out on {{good.date_checked_out}}</p>
+
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form | crispy}}
+
+                    <input type="text" name="product" value="{{good.product.id}}" hidden>
+
+                    <input type="submit" value="Review">
+                </form>
+            </div>
+            {% empty %}
+            <p>No Goods Purchased Yet</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+</div>
+
+
+
+
+
+{% endblock %}

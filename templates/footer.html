@@ -1,0 +1,269 @@
+{% load static %}
+
+<style>
+
+    .t_footer{
+        position:relative;
+        margin-top:auto;
+        background-color:grey;
+    }
+
+    .footer{
+        display:grid;
+        grid-template-rows:2fr 1fr 1fr;
+        position:sticky;
+        bottom:0;
+        background-color:;
+        margin:auto;
+    }
+
+    .footer_top{
+        display:grid;
+        grid-template-columns:1fr 3fr 1fr;
+        background-color:#212143;
+
+    }
+     .f_logo_text{
+        margin-top: 20px;
+        font-size: 30px;
+        font-family: 'Brush Script MT', cursive;
+        color:white;
+    }
+
+    .f_logo{
+        margin-top:10px;
+        filter: invert(100%)
+    }
+
+    .footer_searchbar{
+        margin-left:250px;
+        margin-top: 30px;
+        margin-bottom:10px;
+        color:white;
+        border-radius:5px;
+
+    }
+
+    .footer_searchbar input[type=text]{
+       padding-left:10px;
+       height:35px;
+
+
+    }
+
+    .footer_searchbar h3{
+        margin-bottom:20px;
+    }
+
+    .footer_app h3{
+        margin-bottom:20px;
+    }
+
+    .footer_app{
+        color:white;
+    }
+
+
+     .footer_searchbar p{
+        margin-bottom:10px;
+    }
+
+    .footer_searchbar button{
+        background-color:black;
+        color:white;
+        border:1px solid white;
+        padding:5px 10px;
+        margin-right:10px;
+        cursor:pointer;
+        margin-left :5px;
+        border-radius:5px;
+    }
+
+
+    .f_searchbar {
+        margin-bottom:10px;
+        width:400px;
+        height:40px;
+        border-radius:8px;
+    }
+
+    .f_searchbar {
+        margin-bottom:10px;
+        width:400px;
+        height:40px;
+        border-radius:8px;
+    }
+
+    .footer_mid_2{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background-color:#21214B;
+
+    }
+
+    .footer_mid_2 p{
+       font-size:25px;
+       color:white;
+    }
+
+    .footer_mid_2 p{
+        font-family: 'Brush Script MT', cursive;
+
+    }
+
+
+    .footer_bottom{
+        background-color:#21214B;
+    }
+
+    .footer_bottom img{
+        max-width:20px;
+        margin: 0 10px;
+        filter:invert(100%);
+    }
+
+    .footer_bottom p{
+        font-size:20px;
+        text-align:center;
+        color:white;
+    }
+
+    .footer_bottom li{
+        display:inline;
+        list-style-type:none;
+        align-items:center;
+    }
+
+    .footer_bottom a{
+        text-decoration:none;
+    }
+
+    .footer_app{
+        margin-top:30px;
+    }
+
+    .footer_app img{
+        max-width:30px;
+        margin:5px 15px 0 0;
+        filter: invert(100%);
+    }
+
+    .social_media_links{
+        margin:10px 0px 0px 550px;
+    }
+
+    .sub_new{
+        margin-top:-10px;
+    }
+
+    .access_offer{
+        margin-top:-10px;
+    }
+
+</style>
+<div class="t_footer">
+    <div class="footer">
+            <div class="footer_top">
+
+                <div class="footer_logo">
+                     <a class="logo" href="{% url 'main_store:index' %}">
+                        <img src="{% static 'images/vilgax.png' %}" alt="My_logo" class="f_logo" >
+                        <p class="f_logo_text">Vilgax Stores</p>
+                     </a>
+                </div>
+
+                <div class="footer_searchbar">
+                    <h3><strong>New to Vilgax Stores ?</strong> </h3>
+                    <p class="sub_new">Subscribe to our newsletter to get updates on our latest offers!</p>
+                    <input type="text" value="{{request.user.email}}" class="f_searchbar">
+                    <button>MALE</button>
+                    <button>FEMALE</button>
+
+                </div>
+
+                <div class="footer_app">
+                    <h3><strong>Download Free Vilgax App</strong> </h3>
+                    <p class="access_offer">Get access to exclusive offers!</p>
+
+                    <a href="">
+                        <img src="{% static 'images/apple-brands.svg' %}" alt="Apple" width="30px">
+                    </a>
+
+                    <a href="">
+                    <img src="{% static 'images/google-play-brands.svg' %}" alt="Google" width="30px">
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="footer_mid_2">
+                <p>Developed By Koder Blvck(47)</p>
+
+            </div>
+
+            <div class="footer_bottom">
+                <p>Contact him on</p>
+
+                <ul>
+
+                    <div class="social_media_links">
+                        <li>
+                            <a href="https://twitter.com/koder_black" target="_blank">
+                                <img src="{% static 'images/twitter-brands.svg' %}" alt="Twitter">
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.linkedin.com/mwlite/in/abraham-adekunle-35269422b" target="_blank">
+                                <img src="{% static 'images/linkedin-in-brands.svg' %}" alt="LinkedIn">
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.facebook.com/ab.graham1/" target="_blank">
+                                <img src="{% static 'images/facebook-brands.svg' %}" alt="Facebook">
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="https://wa.link/i7ffjk" target="_blank">
+                                <img src="{% static 'images/whatsapp-brands.svg' %}" alt="Whatsapp">
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="" target="_blank">
+                                <img src="{% static 'images/instagram-brands.svg' %}" alt="Instagram">
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="https://t.me/KoderBlvck" target="_blank">
+                                <img src="{% static 'images/telegram-brands.svg' %}" alt="Telegram">
+                            </a>
+                        </li>
+
+
+                        <li>
+                            <a href="https://github.com/NoBoneZ" target="_blank">
+                                <img src="{% static 'images/github-brands.svg' %}" alt="Github">
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="mailto:adekunleabraham09@gmail.com" target="_blank">
+                                <img  src="{% static 'images/envelope-solid.svg' %}" alt="Gmail">
+                            </a>
+                        </li>
+                    </div>
+
+
+                </ul>
+
+            </div>
+
+    </div>
+</div>

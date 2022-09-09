@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}<title>{{page | title}} page</title>{% endblock %}
+{% block content %}
+<style>
+    .store_form{
+        display:flex;
+        align-products:center;
+        justify-content:center;
+        background-color:gainsboro;
+        margin:50px 380px ;
+        padding-bottom:100px;
+        border-radius:5px;
+        padding-top:0px;
+    }
+
+
+    .report_form_header h2{
+        margin-top: 30px;
+        margin-bottom:  -20px;
+        margin-left:50px;
+        background-color:;
+        font-type:helvetica;
+    }
+
+    .report_form_header img{
+        width:20px;
+        height:20px;
+        margin-left: -130px;
+        margin-top : -900px;
+     }
+
+     .report_body{
+        margin-top:40px;
+     }
+
+      .checkout_form_header h2{
+        margin-top: 30px;
+        margin-bottom:  -20px;
+        margin-left:50px;
+        background-color:;
+        font-type:helvetica;
+    }
+
+    .checkout_form_header img{
+        width:20px;
+        height:20px;
+        margin-left: -220px;
+        margin-top : -900px;
+     }
+
+      .checkout_body{
+        margin-top:40px;
+     }
+
+
+</style>
+
+<div class="store_form">
+
+    {% if page == "complaint_form" %}
+        <div class="product_complaint_form">
+
+
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+                    <div class="report_form_header">
+                        <h2>Product Review Form</h2>
+
+                        <a href="{{request.META.HTTP_REFERER}}">
+                            <img src="{% static 'images/arrow-left.svg' %}" alt="Go Back">
+                        </a>
+                    </div>
+
+            <div class="report_body">
+                {{form.full_name | as_crispy_field }}
+
+                {{form.complainant_type | as_crispy_field}}
+
+                {{form.reason_for_report |as_crispy_field}}
+
+                {{form.additional_details | as_crispy_field}}
+
+                {{form.additional_file | as_crispy_field}}
+
+                {{form.email | as_crispy_field}}
+
+                {{form.phone_number | as_crispy_field}}
+
+                <input type="submit" value="Submit">
+            </div>
+
+        </form>
+
+
+    </div>
+    {% endif %}
+
+    {% if page == "checkout_form" %}
+        <div class="checkout_form">
+        <form action="" enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+
+                <div class="checkout_form_header">
+                        <h2>Checkout</h2>
+
+                        <a href="{{request.META.HTTP_REFERER}}">
+                            <img src="{% static 'images/arrow-left.svg' %}" alt="Go Back">
+                        </a>
+                </div>
+
+            <div class="checkout_body">
+                {{form.full_name | as_crispy_field }}
+                <br>
+
+                {{form.address | as_crispy_field}}
+                <br>
+
+
+
+                {{form.delivery | as_crispy_field}}
+                <br>
+
+                {{form.phone_number | as_crispy_field }}
+                <br>
+
+
+                {{form.payment_method | as_crispy_field}}
+                <br>
+
+                <h3>Shipment details</h3>
+
+                {% for product in products %}
+                <p>{{product.quantity}}X    <span>{{product}}</span></p>
+                <p>Fulfilled by {{product.product.vendor}}</p>
+                <hr>
+                {% empty %}
+                <p>Empty Cart</p>
+                {% endfor %}
+
+                <p><i>TOTAL</i> {{total}}</p>
+
+                <br>
+                <input type="checkbox" required> <span>I agree to the <a href="">Terms and Conditions</a>.</span>
+                <br>
+                <br>
+
+                <a href="{{request.META.HTTP_REFERER}}"><input type="submit" value="Go Back"></a>
+                <input type="submit" value="Confirm">
+            </div>
+
+
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

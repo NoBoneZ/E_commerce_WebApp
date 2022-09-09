@@ -1,0 +1,301 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}<title>Cart Summary</title>{% endblock %}
+{% block content %}
+<style>
+
+    .cart_summary{
+        display: grid;
+        grid-template-columns: 5fr 2fr;
+        grid-template-rows: auto;
+        column-gap: 30px;
+    }
+
+    .individual_ordered_product{
+        border:1px solid ;
+        border-radius:8px;
+        margin:40px;
+        padding:45px;
+    }
+
+    .individual_ordered_product h5{
+        float:right;
+        margin: 200px 0px 0px px;
+
+    }
+
+    .individual_ordered_product del{
+        float:right;
+
+    }
+
+
+
+    .summary_product_picture {
+        margin: -20px 5px 0px -10px;
+        width:70px;
+        height:70px;
+        float:left;
+    }
+
+    .style_cart_summary{
+        background-color:;
+        margin: 50px 20px  10px 90px;
+
+    }
+
+    .quantity_control{
+        float:right;
+    }
+
+    .quantity_control span{
+        margin:0px 0px 0px -10px;
+    }
+
+    .summary_remove{
+        float:left;
+        width:20px;
+        height:20px;
+
+    }
+
+    .summary_remove img{
+        width:20px;
+        height:20px;
+        margin:0px -5px -22px -30px;
+
+    }
+
+    .summary_remove span{
+        margin:0px 0px -10px -7px;
+
+    }
+
+    .summary_increase{
+        margin:0px 0px -20px -30px;
+    }
+
+    .summary_increase img{
+        width:20px;
+        height:20px;
+    }
+
+    .summary_reduce{
+        margin:-20px 0px 0px -0px;
+    }
+
+     .summary_reduce img{
+        width:20px;
+        height:20px;
+
+    }
+
+    .cart_summary_header h3{
+        margin-top: 30px;
+        margin-bottom: -20px;
+        margin-left:250px;
+        font-type:helvetica;
+    }
+
+    .cart_summary_header img{
+        width:20px;
+        height:20px;
+        margin-left: 20px;
+        margin-top : -900px;
+     }
+
+    .total_price{
+        border-radius:5px;
+        margin:20px;
+        padding:10px;
+    }
+
+    .total_price button{
+        display:block;
+        margin-top:10px;
+        cursor:pointer;
+    }
+
+    .about_returns{
+        border-radius:5px;
+        margin:20px;
+        padding:10px;
+    }
+
+    .total_price_returns{
+        position:sticky;
+        top:0;
+    }
+
+    .all_products_in_wishlist{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        row-gap: 0px;
+        column-gap: 10px;
+        border-radius:6px;
+        margin: 0px 520px 50px 120px;
+
+
+  }
+
+    .wishlist h3{
+        margin-left:120px;
+        font-size:20px;
+    }
+
+    .wishlist_products{
+         margin:20px 0px 0px 0px;
+        padding:20px;
+        border:1px solid white;
+        border-radius:10px;
+        box-shadow: 3px 3px 3px 3px gainsboro;
+    }
+
+
+    .wishlist_products button{
+        margin-top:50px;
+        margin-left:20px;
+        background-color:#FF9C6E;
+        color:white;
+        border:1px solid #FF9C6E;
+        border-radius:5px;
+        cursor:pointer;
+        padding:5px;
+
+    }
+
+    .wishlist_discount{
+        float:right;
+        margin-top:-40px;
+        margin-left: 20px;
+    }
+
+    .sum_wish_prod {
+        width:50px;
+        height:50px;
+        float:left;
+
+    }
+
+
+
+</style>
+
+
+<div class="cart_page">
+
+    <div class="cart_summary">
+        <div class="style_cart_summary">
+
+                <div class="cart_summary_header">
+                        <h3>{{cart.user.username | title}} <span><strong>, Here is your order summary</strong></span></h3>
+
+                        <a href="{{request.META.HTTP_REFERER}}">
+                            <img src="{% static 'images/arrow-left.svg' %}" alt="Go Back">
+                        </a>
+                </div>
+
+            {% for product in ordered_products %}
+            <div class="individual_ordered_product">
+                <a href="{% url 'main_store:product_details' product.product.id %}">
+                <img src="{{product.product.picture_of_product_1.url}}" alt="{{product.product.name}}" class="summary_product_picture">
+                    <a/>
+                <p class="summary_p_n"><strong>{{product.product.name}}</strong></p>
+
+                {% if product.product.discount > 0 %}
+                    <h5>--{{product.product.get_price_discount_percentage}}% off</h5>
+                    <del>{{product.product.price}}</del>
+                {% endif %}
+
+                <p><strong>#{{product.product.get_real_price}}</strong></p>
+
+                <h4>seller: {{product.product.vendor.name_of_store}}</h4>
+
+
+                <div class="summary_remove">
+                    <a href="{% url 'main_store:remove_from_cart' request.user.id product.product.id %}">
+                        <img src="{% static 'images/trash.svg' %}" alt="Remove">
+                        <span><strong>REMOVE</strong></span>
+                    </a>
+                </div>
+
+                <div class="quantity_control">
+
+                    <div class="summary_increase">
+                        <a href="{% url 'main_store:increase_quantity' request.user.id product.product.id %}">
+                        <img src="{% static 'images/arrow-up.svg' %}" alt="increase_quantity">
+                        </a>
+                    </div>
+
+                    <span>{{product.quantity}}</span>
+
+                    <div class="summary_reduce">
+                        <a href="{% url 'main_store:reduce_quantity' request.user.id product.product.id %}">
+                        <img src="{% static 'images/arrow-down.svg' %}" alt="reduce quantity">
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {% empty %}
+            <p>No products in the Cart. To add products to the Cart, kindly browse our <a href="{% url 'main_store:index' %}">Categories</a></p>
+            {% endfor %}
+        </div>
+
+
+        {% if ordered_products.count > 0 %}
+            <div class="total_price_returns">
+                <div class="total_price">
+                    <p><strong>SUBTOTAL : </strong></p>
+                    <span>#{{total}}</span>
+
+                    <p ><small>Delivery fees not included yet</small></p>
+                    <a href="{% url 'main_store:checkout' request.user.id %}"><button type="submit">CHECKOUT</button></a>
+                </div>
+
+                <div class="about_returns">
+                    <h5>Returns are easy</h5>
+                    <p>Free return within 15 days for Official Store products and 7 days for products from other vendors.</p>
+                </div>
+
+            </div>
+        {% endif %}
+
+
+    </div>
+
+
+    <br>
+    <br>
+    <br>
+    <div class="wishlist">
+        <h3>Wishlist</h3>
+
+        <div class="all_products_in_wishlist">
+            {% for product in wishlist %}
+            <div class="wishlist_products">
+                <img src="{{product.picture_of_product_1.url}}" alt="{{product.name}}" class="sum_wish_prod">
+                <p>{{product.name}}</p>
+                <p><strong>#{{product.get_real_price}}</strong></p>
+
+
+                 <a href="{% url 'main_store:add_to_cart' product.id %}">
+                     <button type="submit"> ADD TO CART</button>
+                 </a>
+            </div>
+            {% empty %}
+                <p>No products in your wishlist</p>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}<title>{{page}} page</title>{% endblock %}
+{% block content %}
+<style>
+  .signin_sign_up{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:9px;
+        margin:50px 400px;
+        background-color:whitesmoke;
+    }
+
+    .sign_up{
+        margin-top:30px;
+        margin-bottom:10px;
+     }
+
+     .signin{
+        margin-top:30px;
+        margin-bottom:10px;
+     }
+
+     .recover_password{
+        margin-top:30px;
+        margin-bottom:10px;
+     }
+
+     .reset_password{
+        margin-top:30px;
+        margin-bottom:10px;
+     }
+
+</style>
+
+
+
+<div class="signin_sign_up">
+
+    {% if page == "sign_in" %}
+        <div class="signin">
+            <form method="post" enctype="multipart/form-data" action="">
+              {% csrf_token %}
+              <label>Email: </label>
+              <input type="text" name="email" placeholder="Enter your registered e-mail">
+                <br>
+                <br>
+
+              <label>Password: </label>
+              <input type="password" name="password">
+                <br>
+                <br>
+
+              <input type="submit" value="Log In">
+                <br>
+                <br>
+
+            </form>
+              <p>You don't have an account ? <a href="{% url 'nucleus:sign_up' %}">Sign Up</a></p>
+                <br>
+
+                <a href="{% url 'nucleus:recover_password' %}"><p>Forgot password ? </p></a>
+                <br>
+                <br>
+          </div>
+    {% endif %}
+
+
+    {% if page == "sign_up" %}
+        <div class="sign_up">
+                <form method="post" action="" enctype="multipart/form-data">
+                  {% csrf_token %}
+                {{form.errors}}
+                    <br>
+
+                  <label>Email: </label>
+                  {{form.email}}
+                   <br>
+                    <br>
+
+                    <label>Username: </label>
+                    {{form.username}}
+                    <br>
+                    <br>
+
+                    <label>Phone number: </label>
+                  {{form.phone_number}}
+                   <br>
+                  <br>
+
+                  <label>Password </label>
+                  {{form.password1}}
+                   <br>
+                  <br>
+
+                    <label>Password Confirmation: </label>
+
+                  {{form.password2}}
+                   <br>
+                  <br>
+
+                    <input type="checkbox" required><span>I have read the <a href="" target="_blank">terms and condition</a>
+                    and I agree to it. </span>
+                   <br>
+                  <br>
+
+                    <input type="submit" value="Sign up">
+                </form>
+                <br>
+                <p>Already have an account ? <a href="{% url 'nucleus:sign_in' %}">Sign in </a></p>
+
+            </div>
+    {% endif %}
+
+    {% if page == 'recover_password' %}
+        <div class="reset_password">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label>Kindly enter Your registered Email:</label>
+            <input type="email" name="email" required>
+
+            <button type="submit">Reset Password</button>
+
+        </form>
+    </div>
+    {% endif %}
+
+
+    {% if page == 'reset_password' %}
+        <div class="reset_password_change">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label>Kindly enter Your New Password:</label>
+                <input type="password" name="password1" required>
+
+                <label>Kindly enter Your registered Email:</label>
+                <input type="password" name="password2" required>
+
+                <button type="submit">Change Password</button>
+
+            </form>
+        </div>
+    {% endif %}
+
+
+
+
+
+
+
+</div>
+{% endblock %}

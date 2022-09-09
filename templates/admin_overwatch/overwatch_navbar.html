@@ -1,0 +1,70 @@
+{% load static %}
+<style>
+    *{
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+
+    .nav_bar{
+        display: flex;
+        justify-content: space-between;
+        padding: 2px;
+        background-color: ghostwhite;
+        position: sticky;
+        top: 0;
+    }
+
+    .logo{
+        display: flex;
+        justify-content: space-evenly;
+        text-decoration:none;
+        color:black;
+    }
+
+    .logo img{
+        width: 70px;
+        height: 70px;
+    }
+
+    .logo_text{
+        margin-top: 20px;
+        font-size: 20px;
+        font-family: 'Brush Script MT', cursive;
+    }
+
+    .main_search_bar{
+        width: 300px;
+        height: 40px;
+        border-radius:10px;
+        margin-left:-380px;
+        margin-top:20px;
+    }
+
+
+    .logout{
+        width:30px;
+
+    }
+
+</style>
+
+<div class="nav_bar">
+
+    <a class="logo" href="{% url 'admin_overwatch:index' %}">
+        <img src="{% static 'images/vilgax.png' %}" alt="My_logo" class="logo" >
+        <p class="logo_text">Vilgax Stores (ADMIN)</p>
+    </a>
+
+    <form>
+    <input class="main_search_bar" type="text" name="search" placeholder="Enter Product name, vendor, category">
+    </form>
+
+
+
+<!--            <a class="logout" href="{% url 'admin_overwatch:overwatch_signout' %}">-->
+<!--                <img src="{% static 'images/switch.png' %}"alt="My_logo" class="logout">-->
+<!--            </a>-->
+
+
+</div>

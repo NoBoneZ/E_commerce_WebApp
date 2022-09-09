@@ -1,0 +1,210 @@
+{% extends 'admin_overwatch/overwatch_base.html' %}
+{% load static %}
+
+{% block title %}<title>{{product.name}}'s page</title>{% endblock %}
+{% block content %}
+<style>
+    .whole_product_details_page{
+        display:grid;
+        grid-template-columns:3fr 2fr;
+        color:blue;
+    }
+
+
+
+    .mainly_product_details img{
+         width:50px;
+
+    }
+
+    .mainly_product_details{
+         margin-left:150px;
+         margin-right:50px;
+
+    }
+
+    .intro_details{
+         border:1px solid black;
+         margin:50px 50px 10px 150px;
+
+    }
+
+    .intro_details img{
+         width:250px;
+
+    }
+
+
+     .product_details{
+         border:1px solid black;
+         margin:0px 50px 10px 150px;
+
+    }
+
+     .product_specification{
+         border:1px solid black;
+         margin:0px 50px 10px 150px;
+         display:grid;
+         grid-template-columns:1fr 1fr;
+
+    }
+
+     .customer_feedback{
+         border:1px solid black;
+         margin:0px 50px 10px 150px;
+
+    }
+
+    .product_detail_add_to_cart{
+        margin:0px 50px 0px 200px;
+        cursor:pointer;
+    }
+
+    .product_detail_add_to_cart button{
+        margin:0px 50px 0px 200px;
+        cursor:pointer;
+    }
+
+    .product_sales_info table{
+        border-collapse:collapse;
+        width:75%;
+        margin-top:20px;
+        margin-left:40px;
+        border:1px solid;
+    }
+
+   .product_sales_info td{
+        text-align:center;
+    }
+
+    .product_sales_info th{
+        background-color:grey;
+        color:white;
+    }
+
+    .product_sales_info th, td{
+        padding:15px;
+    }
+
+
+</style>
+
+
+
+<div class="whole_product_details_page">
+
+
+    <div class="mainly_product_details">
+
+        <a href="{% url 'admin_overwatch:overwatch_edit_product' product.id %}">
+        <button type="button">Edit product</button>
+        </a>
+
+
+        <div class="intro_details">
+
+            <img src="{{product.picture_of_product_1.url}}" alt="{{product.name}}">
+            <h3>{{product.name}}</h3>
+
+            {% if product.discount > 1%}
+                <span>{{product.get_price_discount_percentage}}</span>
+                <del>{{product.get_price}}</del>
+            {% endif %}
+            <strong><span>#{{product.get_real_price}}</span></strong>
+
+        </div>
+
+        <div class="product_details">
+            <h3>Product Details</h3>
+            <hr>
+
+            <p>{{product.description}}</p>
+
+        </div>
+
+        <div class="product_specification">
+            <h3>Specifications</h3>
+
+            <div class="key_features">
+                <h4>Key Features</h4>
+
+                <p>{{product.key_features}}</p>
+
+            </div>
+
+            <div class="specification">
+                <h4>Specifications</h4>
+<!--                <&#45;&#45; check for synonym&ndash;&gt;-->
+                <p>{{product.specifications}}</p>
+            </div>
+
+        </div>
+
+        <div class="customer_feedback">
+            <div class="product_ratings">
+
+            </div>
+
+            <div class="comments">
+                <h3>Comments From Verified Purchases ({{feedback.count}})</h3>
+                {% for feed in feedback %}
+                    <div class="individual_comment">
+                        <span>{{feed.rating}}</span>
+                        <strong><p>{{feed.topic}}</p></strong>
+                        <p>{{feed.user.first_name}} {{feed.user.last_name}} {{feed.date_commented | timesince}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+             <div class="seller_information">
+                    <h5>Seller Information</h5>
+                    <span>{{product.vendor.name_of_store}}</span>
+             </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="product_sales_info">
+        <table>
+            <h2>Product Sales History</h2>
+            <tr>
+                <th>S/N</th>
+                <th>Date</th>
+                <th>Quantity</th>
+                <th>Customer</th>
+                <th>Price</th>
+            </tr>
+
+            {% for product in product_sales %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{product.date_checked_out}}</td>
+                <td>{{product.quantity}}</td>
+                <td>{{product.user.username}}</td>
+                <td>{{product.individual_product_price}}</td>
+            </tr>
+            {% empty %}
+
+            <tr><td colspan="3">No sales yet</td></tr>
+            {% endfor %}
+
+
+            <tr>
+                <td colspan="2">Total Quantity Sold</td>
+                <td>{{total_quantity}}</td>
+            </tr>
+
+            <tr>
+                <td colspan="2">Total Amount generated</td>
+                <td colspan="2">{{total_sold}}</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+
+</div>
+{% endblock %}

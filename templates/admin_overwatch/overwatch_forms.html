@@ -1,0 +1,53 @@
+{% extends "admin_overwatch/overwatch_base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}<title>{{page}}'s page</title>{% endblock %}
+{% block content %}
+<style>
+    .overwatch_forms{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        margin:300px;
+    }
+
+</style>
+
+<div class="overwatch_forms">
+    {% if page == "sign_in" %}
+    <div class="sign_in_form">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label>Email: </label>
+                <input type="email" name="email" placeholder="Enter Admin Enabled E-mail">
+                <br>
+                <br>
+
+                <label>Password: </label>
+                <input type="password" name="password">
+                <br>
+                <br>
+
+                <input type="submit" value="sign in">
+
+            </form>
+    </div>
+    {% endif %}
+
+    {% if page == "create_edit" %}
+    <div class="create_edit_form">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.as_table}}
+
+            <input type="submit" value="Submit">
+        </form>
+
+    </div>
+    {% endif %}
+
+
+
+</div>
+{% endblock %}

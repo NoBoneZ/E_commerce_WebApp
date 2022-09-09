@@ -1,0 +1,356 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}<title>Vilgax's Home</title>{% endblock %}
+{% block content %}
+<style>
+  .main_store_home{
+    display:grid;
+    grid-template-columns:1fr 3fr 1fr;
+
+  }
+
+  .main_store_categories a{
+    text-decoration:none;
+    color:black;
+  }
+
+  .main_store_categories h2{
+    margin-left:40px;
+    margin-top:20px;
+    margin-bottom:30px;
+  }
+
+  .main_store_products h2{
+    padding:20px 20px 20px 0px;
+  }
+
+
+
+  .main_store_categories li{
+    list-style-type:none;
+    border: 2px solid #1D39C4;
+    color:#1D39C4;
+    border-radius:5px;
+    padding:5px;
+    background-color:white;
+    margin:5px 120px 5px 0px;
+  }
+
+
+  .main_store_categories li:hover{
+    background-color:#1D39C4;
+    color:white;
+  }
+
+  .main_store_categories li:visited{
+    background-color:#597EF7;
+    color:white;
+  }
+
+  .products_available{
+    padding:10px;
+  }
+
+  .products_list{
+    display: grid;
+    width: ;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    row-gap: 30px;
+    column-gap: 10px;
+    margin-right:120px;
+  }
+
+  .product{
+    border:1px solid white;
+    border-radius:10px;
+    padding:20px;
+    box-shadow: 3px 3px 3px 3px gainsboro;
+
+  }
+
+  .product_image{
+    width:150px;
+    height:150px;
+  }
+
+  .cart_logo img{
+    width:40px;
+    margin: 0px 0px -44px 195px;
+  }
+
+  .like_product{
+    width:30px;
+    margin:0px 0px -25px 60px;
+  }
+
+  .sales_activity{
+    border:1px solid black;
+    margin-left:-50px;
+    margin-right:20px;
+    border-radius:5px;
+  }
+
+   .sales_activity img{
+    width:70px;
+    padding:5px;
+  }
+
+  .sales_activity span{
+       border:1px solid black;
+       border-radius:3px;
+       background-color:black;
+       color:white;
+       float:right;
+
+  }
+
+  .sales_activity p{
+        padding:8px;
+
+  }
+
+  .recent_sales h2{
+    margin:20px 10px 55px -55px;
+  }
+
+    .view_product{
+        width:25px;
+        margin:-5px 0px 0px 7px
+      }
+
+    .hot h2{
+        margin:50px 0px -20px 0px;
+    }
+
+     .hot{
+        margin:50px 0px 50px 0px;
+    }
+
+    .hot_deals{
+        margin:0px 110px 50px 0px;
+        display:grid;
+        grid-template-columns:1fr 1fr 1fr 1fr 1fr;
+        column-gap:20px;
+
+    }
+
+
+    .hot_deals img{
+        width:135px;
+        height:135px;
+
+    }
+
+
+     .ind_hot_deals{
+        margin:20px 0px 0px 0px;
+        padding:20px;
+        border:1px solid white;
+        border-radius:10px;
+        box-shadow: 3px 3px 3px 3px gainsboro;
+    }
+
+
+    .ind_hot_deals button{
+        margin-top:10px;
+        margin-left:20px;
+        background-color:#FF9C6E;
+        color:white;
+        border:1px solid #FF9C6E;
+        border-radius:5px;
+        cursor:pointer;
+        padding:10px;
+
+    }
+
+
+
+
+    .recommended_for_you h2{
+        margin:50px 0px -20px 0px;
+    }
+
+     .recommended_for_you{
+        margin:50px 0px 50px 0px;
+    }
+
+    .rec_deals{
+        margin:0px 110px 50px 0px;
+        display:grid;
+        grid-template-columns:1fr 1fr 1fr 1fr 1fr;
+        column-gap:20px;
+
+    }
+
+
+    .rec_deals img{
+        width:135px;
+        height:135px;
+
+    }
+
+
+     .ind_rec_deals{
+        margin:20px 0px 0px 0px;
+        padding:20px;
+        border:1px solid white;
+        border-radius:10px;
+        box-shadow: 3px 3px 3px 3px gainsboro;
+    }
+
+
+    .ind_rec_deals button{
+        margin-top:10px;
+        margin-left:20px;
+        background-color:#FF9C6E;
+        color:white;
+        border:1px solid #FF9C6E;
+        border-radius:5px;
+        cursor:pointer;
+        padding:10px;
+
+    }
+
+    .no_hot_deals{
+        margin-top:20px;
+    }
+
+    .disc_ind_hot_deal{
+        color:red;
+        padding:10px;
+    }
+
+</style>
+
+
+<div class="main_store_home">
+
+  <div class="main_store_categories">
+    <h2>Categories</h2>
+      <ul>
+          <a href="{% url 'main_store:index' %}"><li>All</li></a>
+        {% for category in categories %}
+        <a href="{% url 'main_store:index' %}?search={{category.name}} "><li>{{category | title}}</li></a>
+        {% empty %}
+        <p>No categories Available</p>
+        {% endfor %}
+      </ul>
+
+
+  </div>
+
+  <div class="main_store_products">
+        <h2>Products Available</h2>
+        <p class="products_available">{{products.count}} Available
+
+          <div class="products_list">
+            {% for product in products %}
+
+            <div class="product">
+                  <img src="{{product.picture_of_product_1.url}}" alt="{{product.name}}" class="product_image">
+                  <h4>{{product.name | title}}</h4>
+                  <p>#{{product.get_real_price}}</p>
+
+                <div class="cart_logo">
+                    <a href="{% url 'main_store:add_to_cart' product.id %}"><img src="{% static 'images/add-to-cart.png' %}" alt="remove_from_cart" class=""></a>
+                </div>
+
+                {% if request.user.is_authenticated %}
+                    <div>
+                        <a href="{% url 'main_store:save_product' request.user.id product.id %}"><img src="{% static 'images/heart.svg' %}" alt="like_product" class="like_product"></a>
+                    </div>
+                {% endif %}
+
+
+                 <div>
+                    <a href="{% url 'main_store:product_details' product.id %}"><img src="{% static 'images/eye.svg' %}" alt="view_product" class="view_product"></a>
+                </div>
+
+
+              </div>
+
+            {% empty %}
+            <p>No products Available</p>
+            {% endfor %}
+
+        </div>
+
+
+        <div class="hot">
+                <h2>Hot Deals</h2>
+            <div class="hot_deals">
+                    {% for hot_product in hot_deals %}
+                    <div class="ind_hot_deals">
+
+                        <a href="{% url 'main_store:product_details' hot_product.id %}"><img src="{{hot_product.picture_of_product_1.url}}" alt="{{hot_product.name}}"></a>
+
+                        <h3>{{hot_product.name | title}}</h3>
+                        <p><strong>#{{hot_product.get_real_price}}</strong></p>
+                        <p class="disc_ind_hot_deal">-{{hot_product.get_price_discount_percentage}}% off</p>
+
+
+                        <a href="{% url 'main_store:add_to_cart' hot_product.id %}"><button type="button">Add To Cart</button></a>
+                    </div>
+                    {% empty %}
+                    <p class="no_hot_deals">No Hot deals At The Moment.</p>
+                    {% endfor %}
+            </div>
+        </div>
+
+        {% if request.user.is_authenticated %}
+        <div class="recommended_for_you">
+            <h2>Recommended For You</h2>
+
+            <div class="rec_deals">
+                {% for merch in recommended_products %}
+                <div class="ind_rec_deals">
+                    <img src="{{merch.picture_of_product_1.url}}" alt="{{merch.name}}">
+
+                    <h5>{{merch.name | title}}</h5>
+                    <p><strong>#{{merch.get_real_price}}</strong></p>
+
+
+
+
+
+                    <a href="{% url 'main_store:add_to_cart' merch.id %}"><button type="button">Add To Cart</button></a>
+                </div>
+                {% empty %}
+                <p>No recommended Deals at this time</p>
+                {% endfor %}
+            </div>
+
+        </div>
+        {% endif %}
+
+    </div>
+
+  <div class="recent_sales">
+    <h2>Recent Sales</h2>
+
+      {% for sale in sales %}
+      <div class="sales_activity">
+          <img src="{{sale.user.profile_picture.url}}" alt="{{sale.user.username}}">
+          <p>{{sale.user.username | title}} purchased {{sale.quantity}}X of {{sale.product.name}} for
+              #{{sale.individual_product_price}} from <strong>{{sale.product.vendor.user.username}}</strong></p>
+          <hr>
+
+
+          <a href="{% url 'main_store:index'%}?search={{sale.product.get_category}}">
+            <span>{{sale.product.get_category}}</span>
+          </a>
+
+
+        <br>
+          <br>
+      </div>
+      <br>
+      {% empty %}
+      <p>No Sales Yet</p>
+      {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

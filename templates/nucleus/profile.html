@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>{{request.user.username | title}}'s profile</title>{% endblock %}
+{% block content %}
+<style>
+
+    .account_info{
+        margin:40px 0px 0px 50px;
+    }
+    .account_info li{
+        list-style-type:none;
+        padding:10px;
+    }
+
+
+    .account_info h2{
+        margin:30px 30px 10px 10px;
+    }
+
+    .account_info p{
+        margin:30px 30px 10px 10px;
+        font-size:20px;
+        font-family: 'Brush Script MT', cursive;
+    }
+
+    .account_info a{
+        text-decoration:none;
+        color:midnightblue;
+    }
+
+    .inner_info{
+     border-radius:10px;
+     margin:0px 400px 50px 400px;
+     padding-left:200px;
+     background-color:lightgray;
+
+    }
+
+    .inner_info img{
+        width:150px;
+        height:150px;
+        margin-top:10px;
+        margin-left:40px;
+        margin-bottom:10px;
+        border-radius:90px;
+    }
+
+</style>
+
+<div class="account_info">
+    <div class="inner_info">
+
+        <img src="{{user.profile_picture.url}}" alt="{{user.username}}">
+      <p>Welcome, {{user.username}}</p>
+      <p>{{user.email}}</p>
+        <br>
+        <br>
+
+
+           <h2>My Vilgax Account</h2>
+      <ul>
+         <a href="{% url 'nucleus:user_all_orders' user.id%}"><li>Orders</li></a>
+         <a href="{% url 'nucleus:user_inbox' user.id %}"><li>Inbox</li></a>
+         <a href="{% url 'nucleus:user_review' user.id %}"><li>Pending reviews</li></a>
+         <a href="{% url 'nucleus:user_wishlist' user.id %}"><li>WishList</li></a>
+          <a href=""><li>Recently Viewed</li></a>
+      </ul>
+
+      
+
+
+      <h2>My Settings</h2>
+      <ul>
+         <a href="{% url 'nucleus:update_details' user.id %}"><li>Details</li></a>
+         <a href="{% url 'nucleus:user_address' user.id %}"><li>Address Book</li></a>
+         <a href="{% url 'nucleus:change_password' user.id %}"><li>Change Password</li></a>
+         <a href="{% url 'nucleus:close_account' user.id %}"><li>Close Account</li></a>
+      </ul>
+    </div>
+
+</div>
+{% endblock %}

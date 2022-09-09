@@ -1,0 +1,378 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}<title>{{product.name | title}}</title>{% endblock %}
+{% block content %}
+<style>
+    .whole_product_details_page{
+        display:grid;
+        grid-template-columns:3fr 1fr;
+        color:black;
+    }
+
+    .mainly_product_details{
+         margin-left:150px;
+         margin-right:50px;
+
+    }
+
+    .intro_details{
+         margin:50px 50px 10px 150px;
+
+
+    }
+
+    .intro_details h3{
+         margin:-120px 380px 10px 180px;
+         padding:5px
+
+    }
+
+    .intro_details img{
+         width:150px;
+         height:150px;
+         margin-left :10px;
+
+    }
+
+    .intro_details del{
+         margin-left:20px;
+
+    }
+
+    .real_price{
+        margin:100px 0px 10px 10px;
+        font-size:30px;
+        font-weight:bold;
+
+    }
+
+    .discount{
+        margin:0px 50px 90px 200px;
+        font-size:15px;
+
+    }
+
+
+     .product_details{
+         margin:40px 50px 10px 150px;
+
+    }
+
+     .product_specification{
+         margin:40px 50px 40px 150px;
+         display:grid;
+         grid-template-columns:1fr 1fr;
+         column-gap:20px;
+
+    }
+
+     .customer_feedback{
+         margin:50px 50px 50px 150px;
+         display:grid;
+         grid-template-columns: 1fr 2fr;
+         column-gap:200px;
+
+    }
+
+    .product_detail_add_to_cart{
+        margin:0px 50px 0px 200px;
+        cursor:pointer;
+    }
+
+    .product_detail_add_to_cart button{
+        margin:0px 50px 0px 200px;
+        cursor:pointer;
+        background-color:#FF9C6E;
+        color:white;
+        border:1px solid #FF9C6E;
+        border-radius:5px;
+        cursor:pointer;
+        padding:10px;
+    }
+
+    .product_detail_add_to_wishlist img{
+        width:30px;
+        height:30px;
+        float:right;
+        margin:-235px 15px 0px 0px;
+    }
+
+     .rvp_like_product{
+        width:30px;
+        margin:0px 0px -25px 60px;
+     }
+
+
+
+     .rvp{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        column-gap:15px;
+     }
+
+
+     .recently_viewed_products{
+        margin-left:150px;
+        margin-right:50px;
+        margin-bottom: 10px;
+     }
+
+     .recently_viewed_products h3{
+        text-decoration:underline;
+     }
+
+    .rvp p{
+        margin-bottom: 10px;
+     }
+
+     .rvp_cart_logo img{
+        float:right;
+        width:30px;
+        margin: 0px 0px -5px 100px
+     }
+
+     .individual_rvp{
+        margin:15px 0px;
+        padding:10px;
+        border:1px solid white;
+        border-radius:10px;
+        box-shadow: 3px 3px 3px 3px gainsboro;
+     }
+
+     .rvp_discount{
+     }
+
+     .rvp_discount h5{
+        float:right;
+        margin:-125px 0px 0px 90px;
+
+     }
+
+     .rvp_discount h4{
+        float:right;
+        margin: -90px -10px 0px -15px;
+        padding-left: px;
+     }
+
+
+
+     .rvp_product_picture{
+        width:70px;
+        height:70px;
+        margin-bottom: 15px;
+
+     }
+
+
+
+     .rvp_like_product img{
+        float:left;
+        width:20px;
+        margin:5px 0px -5px -50px;
+     }
+
+     .key_features h4{
+        text-decoration:underline;
+     }
+
+     .specification h4{
+        text-decoration:underline;
+     }
+
+    .test_rvp{
+        margin:5px;
+    }
+
+    .seller_information{
+        padding:10px;
+        border-radius:8px;
+        margin:20px 20px 0px 10px;
+
+    }
+
+    .seller_information button{
+        display:block;
+        margin-top:10px;
+
+    }
+
+    .average_rating{
+        margin:20px 0px;
+    }
+
+    .product_image {
+        border:4px solid white;
+        border-radius:10px;
+        box-shadow: 2px 2px 2px 3px gainsboro;
+    }
+
+
+
+
+
+
+</style>
+
+
+
+<div class="whole_product_details_page">
+    <div class="mainly_product_details">
+        <div class="intro_details">
+
+            <div >
+                <img src="{{product.picture_of_product_1.url}}" alt="{{product.name}}" class="product_image">
+                <h3>{{product.name}}</h3>
+
+                {% if product.discount > 1%}
+                    <span class="discount">-{{product.get_price_discount_percentage}}% off</span>
+                    <p class="real_price">#{{product.get_real_price}}</p>
+                    <del>#{{product.price}}</del>
+                {% else %}
+                    <p class="real_price">#{{product.get_real_price}}</p>
+                {% endif %}
+
+
+                <div class="product_detail_add_to_cart">
+                    <a href="{% url 'main_store:add_to_cart' product.id %}">
+                        <button type="submit">ADD TO CART</button>
+                    </a>
+                </div>
+
+                <div class="product_detail_add_to_wishlist">
+                    <a href="{% url 'main_store:save_product' request.user.id product.id %}">
+                        <img src="{% static 'images/heart.svg' %}" alt="add_to_wishlist">
+                    </a>
+                </div>
+
+
+
+                <a href="{% url 'main_store:make_report' product.id %}">Report Incorrect Product Information</a>
+            </div>
+
+        </div>
+
+        <div class="product_details">
+            <h3>Product Details</h3>
+            <hr>
+
+            <p>{{product.description}}</p>
+
+        </div>
+
+        <div class="product_specification">
+
+            <div class="key_features">
+                <h4>Key Features</h4>
+
+                {% if product.key_features %}
+                    <p>{{product.key_features}}</p>
+                {% else %}
+                    <p>No Key Features Available</p>
+                {% endif %}
+
+            </div>
+
+            <div class="specification">
+                <h4>Specifications</h4>
+                {% if product.specifications %}
+                    <p>{{product.specifications}}</p>
+                {% else %}
+                    <p>No Specifications Available.</p>
+                {% endif %}
+            </div>
+
+        </div>
+
+        <div class="customer_feedback">
+            <div class="product_ratings">
+                <h2>Product Rating Summary</h2>
+
+                {% if rating %}
+                    <h4 class="average_rating">Average Rating</h4>
+                    <h4>{{rating}} / 5</h4>
+                {% else %}
+                    <p>No Ratings Yet</p>
+                {% endif %}
+
+            </div>
+
+            <div class="comments">
+                <h3>Comments From Verified Purchases ({{feedback.count}})</h3>
+                {% for feed in feedback %}
+                    <div class="individual_comment">
+                        <span>{{feed.rating}}/5</span>
+                        <strong><p>{{feed.topic}}</p></strong>
+                        <br>
+                        <p>{{feed.comments}}</p>
+                        <br>
+                        <p>{{feed.user.username | title}}  {{feed.date_commented | timesince}} ago</p>
+                        <hr>
+                    </div>
+                {% empty %}
+                <p>No Comments Yet</p>
+                {% endfor %}
+            </div>
+
+        </div>
+
+
+        {% if request.user.is_authenticated %}
+            <div class="recently_viewed_products">
+                <h3>Recently Viewed Products</h3>
+
+                <div class="rvp">
+                {% for rvp in recently_viewed_products %}
+                <div class="individual_rvp">
+                    <div class="test_rvp">
+                        <a href="{% url 'main_store:product_details' rvp.id%}">
+                            <img src="{{rvp.picture_of_product_1.url}}" alt="{{rvp.name}}" class="rvp_product_picture">
+                        </a>
+
+                        <p>{{rvp.name}}</p>
+
+
+                        <div class="rvp_discount">
+                            {% if rvp.discount > 1 %}
+                            <h4><del>#{{rvp.price}}</del></h4>
+                            <h5>-{{rvp.get_price_discount_percentage}}%</h5>
+                            {% endif %}
+                        </div>
+
+                        <p>#{{rvp.get_real_price}}</p>
+
+                            <div class="rvp_like_product">
+                                <a href="{% url 'main_store:save_product' request.user.id rvp.id %}"><img src="{% static 'images/heart.svg' %}" alt="like_product" class=""></a>
+                            </div>
+
+                        <div class="rvp_cart_logo">
+                            <a href="{% url 'main_store:add_to_cart' rvp.id %}"><img src="{% static 'images/add-to-cart.png' %}" alt="add_to_cart" class=""></a>
+                        </div>
+                    </div>
+
+                </div>
+                {% empty %}
+                <p>No item viewed yet</p>
+                {% endfor %}
+             </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="extra_info">
+        <div class="seller_information">
+            <h5>Seller Information</h5>
+                <span>{{product.vendor.name_of_store}}</span>
+                <span><strong>Followers: </strong>{{product.vendor.followers.count}}</span>
+                <a href="">
+                    <button type="button">Follow</button>
+                </a>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+{% endblock %}
